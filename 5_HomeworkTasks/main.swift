@@ -65,7 +65,7 @@ print("""
 let euroExchange = 115.62
 let dollarExchange = 105.81
 print("введите цифру в консоль, сколько рублей вы хотите сконвертировать")
-let inputRublesForConvert = Double(readLine()!)!
+let inputRublesForConvert = Double(readLine() ?? "0") ?? 0
 let convertDollar = inputRublesForConvert / dollarExchange
 let convertEuro = inputRublesForConvert / euroExchange
 print("\(inputRublesForConvert) рублей в долларах это - \(NSString(format:"%.2f",convertDollar)),\n\(inputRublesForConvert) рублей в евро это - \(NSString(format:"%.2f",(convertEuro)))")
@@ -80,11 +80,11 @@ print("""
           h - высота
           """)
 print("Введите длинну трапеции Х")
-let trapeziumLenghtX = Double(readLine()!)!
+let trapeziumLenghtX = Double(readLine() ?? "0") ?? 0
 print("Введите длинну трапеции У")
-let trapeziumLenghtY = Double(readLine()!)!
+let trapeziumLenghtY = Double(readLine() ?? "0") ?? 0
 print("Введите высоту трапеции У")
-let trapeziumHeightH = Double(readLine()!)!
+let trapeziumHeightH = Double(readLine() ?? "0") ?? 0
 print("Площадь трапеций равна: \(((trapeziumLenghtX + trapeziumLenghtY)/2)*trapeziumHeightH)")
 
 
