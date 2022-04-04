@@ -60,10 +60,9 @@ struct SportCar {
                     // иначе идем дальше
                 }
             }
-            
             // проверяем есть ли еще место в багажнике
             if (filledBaggage + loadUnLoadOfBaggage) > volumeBaggage {
-                print("Багаже нет столько места, вы можете вместить \((filledBaggage + loadUnLoadOfBaggage)-volumeBaggage) килограмм")
+                print("Багаже нет столько места, вы можете вместить \(volumeBaggage) килограмм")
                 print("Снизьте количество вещей загружаемых в багаж")
             } else {
                 volumeBaggage -= loadUnLoadOfBaggage
@@ -71,6 +70,29 @@ struct SportCar {
         case .unloading:
             volumeBaggage += loadUnLoadOfBaggage
         }
+    }
+    
+    mutating func printInfoAboutCar() {
+        let StartEnigine: String = { () -> String in
+            if isWasStartEnigine {
+                return "Заведен"
+            } else { return "Не заведен"}
+        }()
+        let wasOpenOrCloseDoor: String = { () -> String in
+            if isWasStartEnigine {
+                return "Открыты"
+            } else { return "Закрыты"}
+        }()
+        let wasFilledBaggage: String = { () -> String in
+            if isWasFilledBaggage {
+                return "Заполнен"
+            } else { return "Свободен"}
+        }()
+        
+        print("""
+              "Модель: \(model), год выпуска: \(yearOfCar), Багаж: \(wasFilledBaggage) \nДвигатель: \(StartEnigine), окна в машине: \(wasOpenOrCloseDoor),\nВ багаже еще поместится: \(volumeBaggage) килограмм.
+              """)
+        print("---------------------------------------------------------------------")
     }
 }
 
@@ -117,7 +139,7 @@ struct TrunkCar {
                 print("Багаж полный, желаете разрузить багаж? y/n")
                 let input = readLine()!
                 if input == "y" {
-                    //разгруаем багаж
+                    //разгруаем car.perform(an: .turnOntheEngine) багаж
                     filledBaggage = 0
                     //изменяем состояние багажа false - не заполнен
                     isWasFilledBaggage = false
@@ -127,19 +149,39 @@ struct TrunkCar {
                     // иначе идем дальше
                 }
             }
-            
             // проверяем есть ли еще место в багажнике
             if (filledBaggage + loadUnLoadOfBaggage) > volumeBaggage {
-                print("Багаже нет столько места, вы можете вместить \((filledBaggage + loadUnLoadOfBaggage)-volumeBaggage) килограмм")
+                print("В багаже нет столько места, вы можете вместить \(volumeBaggage) килограмм")
                 print("Снизьте количество вещей загружаемых в багаж")
             } else {
                 volumeBaggage -= loadUnLoadOfBaggage
-                filledBaggage += loadUnLoadOfBaggage
             }
         case .unloading:
             volumeBaggage += loadUnLoadOfBaggage
-            filledBaggage -= loadUnLoadOfBaggage
         }
+    }
+    
+    mutating func printInfoAboutCar() {
+        let StartEnigine: String = { () -> String in
+            if isWasStartEnigine {
+                return "Заведен"
+            } else { return "Не заведен"}
+        }()
+        let wasOpenOrCloseDoor: String = { () -> String in
+            if isWasStartEnigine {
+                return "Открыты"
+            } else { return "Закрыты"}
+        }()
+        let wasFilledBaggage: String = { () -> String in
+            if isWasFilledBaggage {
+                return "Заполнен"
+            } else { return "Свободен"}
+        }()
+        
+        print("""
+              "Модель: \(model), год выпуска: \(yearOfCar), Багаж: \(wasFilledBaggage) \nДвигатель: \(StartEnigine), окна в машине: \(wasOpenOrCloseDoor),\nВ багаже еще поместится: \(volumeBaggage) килограмм.
+              """)
+        print("---------------------------------------------------------------------")
     }
 }
 
@@ -165,17 +207,26 @@ enum Action {
     case unloading
 }
 
-var car = SportCar(model: "Mersedes-Benz MAYBACH", yearOfCar: 2022, volumeBaggage: 100)
 //Покупаем Майбах
-print(car)
+var car = SportCar(model: "Mersedes-Benz MAYBACH", yearOfCar: 2022, volumeBaggage: 100)
+car.printInfoAboutCar()
 //заводим Майбах
 car.perform(an: .turnOntheEngine)
-print(car)
-//подготовим шину которая вести 10 кило, для загрузки в багаж
-car.loadUnLoadOfBaggage = 10
-
+car.printInfoAboutCar()
+//подготовим шину которая вести 80 кило, для загрузки в багаж
+car.loadUnLoadOfBaggage = 80
 //Поставим шину в багажник нашего автомобиля
 car.perform(an: .filling)
-print(car)
-car.perform(an: .unloading)
-print(car)
+car.printInfoAboutCar()
+//добавим еще 20 кило в багажник (сначала подготовим)
+car.loadUnLoadOfBaggage = 20
+//Загружаем
+car.perform(an: .filling)
+//печатаем результат
+car.printInfoAboutCar()
+//готовим еще 20
+car.loadUnLoadOfBaggage = 20
+//загружаем в багажник
+car.perform(an: .filling)
+//смотрим результат
+car.printInfoAboutCar()
