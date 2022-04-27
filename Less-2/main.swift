@@ -10,15 +10,17 @@ struct Person<T> {
     var workers: [Worker<T>]? = []
     
     func printWorker() {
-        workers?.forEach { " \(print($0.name,                                                                                                $0.job?.toString ?? "nil",                                                                              $0.salary))"}
+        workers?.forEach {
+            print("\($0.name), \($0.job?.toString ?? "nil"), \($0.salary)")
+        }
     }
     
-    mutating func addWorker(name: T,
-                            job: Job.NameJob,
-                            salary: T) {
-        workers?.append(Worker<T> (name: name ,
-                                   job: job,
-                                   salary: salary))
+    mutating func addWorker(
+        name: T,
+        job: Job.NameJob,
+        salary: T
+    ) {
+        workers?.append(.init(name: name, job: job, salary: salary))
     }
 }
 
@@ -27,14 +29,15 @@ struct Worker<T> {
     let name: T
     
     let job: Job.NameJob?
-    
     let jobWork: Job? = Job()
     
     let salary: T
     
-    init(name: T,
-         job: Job.NameJob,
-         salary: T) {
+    init(
+        name: T,
+        job: Job.NameJob,
+        salary: T
+    ) {
         self.name = name
         self.job = job
         self.salary = salary
