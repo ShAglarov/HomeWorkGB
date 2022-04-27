@@ -28,12 +28,11 @@ final class UrlObjectLoader {
         let session = URLSession.shared
 
         let data = try? await session.data(from: url)
-        guard let data = data else {
+        guard let data = data?.0 else {
             throw ParserErrors.downloadError
         }
 
-        let json = try? JSONSerialization.jsonObject(with: data.0, options: [])
-        guard let json = json else {
+        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) else {
             throw ParserErrors.jsonParseError
         }
 
@@ -44,7 +43,9 @@ final class UrlObjectLoader {
 
 // MARK: - main entry
 
-let address = CommandLine.argc > 1 ? CommandLine.arguments[1] :  "https://itunes.apple.com/search?term=dark+tranquillity&entity=album"
+let address = CommandLine.argc > 1
+    ? CommandLine.arguments[1]
+    : "https://itunes.apple.com/search?term=dark+tranquillity&entity=album"
 
 let group = DispatchGroup()
 group.enter()
